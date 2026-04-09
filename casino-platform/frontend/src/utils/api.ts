@@ -1,4 +1,5 @@
-const BASE_URL = '/';
+// Empty string = relative URLs, so nginx proxies /auth/... → backend:4000
+const BASE_URL = '';
 
 function getToken(): string | null {
   return localStorage.getItem('casino_token');
@@ -19,11 +20,17 @@ async function request<T>(
     if (token) headers['Authorization'] = `Bearer ${token}`;
   }
 
-  const res = await fetch(`${BASE_URL}${path}`, {
+  const res = await fetch(`${BASE_URL}/${path}`, {
     method,
     headers,
     body: body ? JSON.stringify(body) : undefined,
   });
+
+  // Guard: if response is not JSON (e.g. HTML error page), throw clearly
+  const contentType = res.headers.get('content-type') || '';
+  if (!contentType.includes('application/json')) {
+    throw new Error(`Server error (${res.status}) — received non-JSON response`);
+  }
 
   const data = await res.json();
 

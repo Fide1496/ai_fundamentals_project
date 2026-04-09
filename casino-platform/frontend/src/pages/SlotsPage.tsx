@@ -28,7 +28,7 @@ export default function SlotsPage() {
   const [spinning, setSpinning] = useState(false);
   const [result, setResult] = useState<SlotsResult | null>(null);
   const [error, setError] = useState('');
-  const spinnerRef = useRef<NodeJS.Timeout | null>(null);
+  const spinnerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const randomSymbol = () => SYMBOLS[Math.floor(Math.random() * SYMBOLS.length)];
 

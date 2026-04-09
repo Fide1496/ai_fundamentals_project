@@ -12,7 +12,7 @@ export default function CrashPage() {
   const [error, setError] = useState('');
   const [animMultiplier, setAnimMultiplier] = useState(1.0);
   const [animating, setAnimating] = useState(false);
-  const animRef = useRef<NodeJS.Timeout | null>(null);
+  const animRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animDataRef = useRef({ current: 1.0, target: 1.0, crashPoint: 1.0, done: false });
 

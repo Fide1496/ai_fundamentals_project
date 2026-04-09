@@ -10,10 +10,27 @@ dotenv.config();
 
 const app = express();
 
+// In Docker, requests come from nginx proxy, so allow any origin
+// In dev, allow the configured frontend URL
+const allowedOrigins = [
+  process.env.FRONTEND_URL || 'http://localhost:3000',
+  'http://localhost:3000',
+  'http://localhost:80',
+  'http://localhost',
+];
+
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+  origin: (origin, callback) => {
+    // Allow requests with no origin (nginx proxy, curl, mobile)
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(null, true); // permissive for virtual-currency app
+    }
+  },
   credentials: true,
 }));
+
 app.use(express.json());
 
 app.get('/health', (_req, res) => res.json({ status: 'ok' }));
