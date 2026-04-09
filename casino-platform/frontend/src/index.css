@@ -1,0 +1,93 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-casino-bg text-white font-body antialiased;
+    background-image:
+      radial-gradient(ellipse at 20% 50%, rgba(144, 96, 255, 0.05) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 20%, rgba(240, 192, 64, 0.04) 0%, transparent 50%);
+  }
+
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #2a2a3d #12121a;
+  }
+
+  *::-webkit-scrollbar {
+    width: 6px;
+  }
+  *::-webkit-scrollbar-track {
+    background: #12121a;
+  }
+  *::-webkit-scrollbar-thumb {
+    background-color: #2a2a3d;
+    border-radius: 3px;
+  }
+}
+
+@layer components {
+  .card {
+    @apply bg-casino-card border border-casino-border rounded-2xl;
+  }
+
+  .btn-gold {
+    @apply bg-casino-gold text-casino-bg font-semibold px-6 py-3 rounded-xl
+           hover:bg-yellow-300 active:scale-95 transition-all duration-150
+           disabled:opacity-40 disabled:cursor-not-allowed disabled:active:scale-100;
+  }
+
+  .btn-ghost {
+    @apply bg-transparent border border-casino-border text-white px-6 py-3 rounded-xl
+           hover:border-casino-gold hover:text-casino-gold active:scale-95
+           transition-all duration-150;
+  }
+
+  .input-field {
+    @apply w-full bg-casino-surface border border-casino-border rounded-xl px-4 py-3
+           text-white placeholder-gray-500 focus:outline-none focus:border-casino-gold
+           transition-colors duration-150;
+  }
+
+  .balance-pill {
+    @apply inline-flex items-center gap-2 bg-casino-surface border border-casino-border
+           rounded-full px-4 py-2 text-casino-gold font-mono font-semibold text-sm;
+  }
+
+  .win-flash {
+    animation: winFlash 0.6s ease-out;
+  }
+
+  .lose-flash {
+    animation: loseFlash 0.6s ease-out;
+  }
+}
+
+@keyframes winFlash {
+  0%   { box-shadow: 0 0 0 0 rgba(0, 232, 122, 0.8); }
+  50%  { box-shadow: 0 0 40px 20px rgba(0, 232, 122, 0.3); }
+  100% { box-shadow: 0 0 0 0 rgba(0, 232, 122, 0); }
+}
+
+@keyframes loseFlash {
+  0%   { box-shadow: 0 0 0 0 rgba(255, 64, 96, 0.8); }
+  50%  { box-shadow: 0 0 40px 20px rgba(255, 64, 96, 0.3); }
+  100% { box-shadow: 0 0 0 0 rgba(255, 64, 96, 0); }
+}
+
+@keyframes reelSpin {
+  0%   { transform: translateY(0); }
+  100% { transform: translateY(-300px); }
+}
+
+.reel-spinning {
+  animation: reelSpin 0.15s linear infinite;
+}
+
+.gold-text {
+  background: linear-gradient(135deg, #f0c040 0%, #ffd700 50%, #f0a010 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}

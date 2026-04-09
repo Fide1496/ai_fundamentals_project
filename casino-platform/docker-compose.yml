@@ -1,0 +1,57 @@
+version: '3.9'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: casino_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: casino_user
+      POSTGRES_PASSWORD: casino_pass
+      POSTGRES_DB: casino_db
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U casino_user -d casino_db']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: casino_backend
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://casino_user:casino_pass@postgres:5432/casino_db
+      JWT_SECRET: change-this-secret-in-production-min-32-chars-long
+      PORT: 4000
+      NODE_ENV: production
+      INITIAL_BALANCE: 1000
+      DAILY_REWARD_AMOUNT: 100
+      FRONTEND_URL: http://localhost:3000
+    ports:
+      - '4000:4000'
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        VITE_API_URL: http://localhost:4000
+    container_name: casino_frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    ports:
+      - '3000:80'
+
+volumes:
+  postgres_data:
