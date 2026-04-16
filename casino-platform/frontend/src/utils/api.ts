@@ -1,4 +1,3 @@
-// Empty string = relative URLs, so nginx proxies /auth/... → backend:4000
 const BASE_URL = '';
 
 function getToken(): string | null {
@@ -26,7 +25,6 @@ async function request<T>(
     body: body ? JSON.stringify(body) : undefined,
   });
 
-  // Guard: if response is not JSON (e.g. HTML error page), throw clearly
   const contentType = res.headers.get('content-type') || '';
   if (!contentType.includes('application/json')) {
     throw new Error(`Server error (${res.status}) — received non-JSON response`);
@@ -82,4 +80,27 @@ export const api = {
 
   roulettePlay: (bets: import('../types').RouletteBet[]) =>
     request<import('../types').RouletteResult>('POST', 'game/roulette/play', { bets }),
+
+  // Crates
+  getCrates: () =>
+    request<{ crates: import('../types').CrateDefinition[] }>('GET', 'crate/list'),
+
+  openCrate: (crateId: string, count = 1) =>
+    request<import('../types').CrateOpenBatchResult>('POST', 'crate/open', { crateId, count }),
+
+  // Admin
+  addBalance: (adminPassword: string, amount: number) =>
+    request<{ newBalance: number; added: number }>(
+      'POST', 'admin/add-balance', { adminPassword, amount }
+    ),
+};
+
+// Keep named exports for backwards compat
+export const crateApi = {
+  getCrates: api.getCrates,
+  openCrate: api.openCrate,
+};
+
+export const adminApi = {
+  addBalance: api.addBalance,
 };

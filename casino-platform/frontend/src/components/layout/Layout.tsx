@@ -6,10 +6,12 @@ import { api } from '../../utils/api';
 const NAV_ITEMS = [
   { path: '/dashboard', label: 'Dashboard', icon: '🏠' },
   { path: '/slots', label: 'Slots', icon: '🎰' },
+  { path: '/crates', label: 'Cases', icon: '📦' },
   { path: '/blackjack', label: 'Blackjack', icon: '🃏' },
   { path: '/crash', label: 'Crash', icon: '🚀' },
   { path: '/roulette', label: 'Roulette', icon: '🎡' },
   { path: '/leaderboard', label: 'Leaderboard', icon: '🏆' },
+  { path: '/admin', label: 'Admin', icon: '🔧' },
 ];
 
 export default function Layout({ children }: { children: React.ReactNode }) {

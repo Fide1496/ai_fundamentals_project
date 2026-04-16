@@ -9,6 +9,8 @@ import BlackjackPage from './pages/BlackjackPage';
 import CrashPage from './pages/CrashPage';
 import RoulettePage from './pages/RoulettePage';
 import LeaderboardPage from './pages/LeaderboardPage';
+import AdminPage from './pages/AdminPage';
+import CratePage from './pages/CratePage';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
@@ -40,6 +42,8 @@ function AppRoutes() {
       <Route path="/crash" element={<ProtectedRoute><CrashPage /></ProtectedRoute>} />
       <Route path="/roulette" element={<ProtectedRoute><RoulettePage /></ProtectedRoute>} />
       <Route path="/leaderboard" element={<ProtectedRoute><LeaderboardPage /></ProtectedRoute>} />
+      <Route path="/admin" element={<ProtectedRoute><AdminPage /></ProtectedRoute>} />
+      <Route path="/crates" element={<ProtectedRoute><CratePage /></ProtectedRoute>} />
       <Route path="*" element={<Navigate to="/login" replace />} />
     </Routes>
   );

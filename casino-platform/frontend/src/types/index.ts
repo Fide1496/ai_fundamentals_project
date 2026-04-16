@@ -77,3 +77,44 @@ export interface RouletteResult {
   balance: number;
   win: boolean;
 }
+
+export type Rarity = 'consumer' | 'industrial' | 'milspec' | 'restricted' | 'classified' | 'covert' | 'rare_special';
+
+export interface CrateItem {
+  id: string;
+  name: string;
+  skin: string;
+  rarity: Rarity;
+  color: string;
+  emoji: string;
+  wear?: string;
+  value?: number;
+}
+
+export interface CrateDefinition {
+  id: string;
+  name: string;
+  description: string;
+  cost: number;
+  emoji: string;
+  items: CrateItem[];
+}
+
+export interface CrateOpenResult {
+  item: CrateItem;
+  rarity: Rarity;
+  wear: { name: string; abbr: string };
+  cost: number;
+  payout: number;
+  net: number;
+  balance: number;
+  win: boolean;
+}
+
+export interface CrateOpenBatchResult {
+  results: CrateOpenResult[];
+  totalCost: number;
+  totalPayout: number;
+  net: number;
+  balance: number;
+}

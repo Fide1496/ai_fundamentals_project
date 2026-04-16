@@ -36,7 +36,7 @@ CREATE INDEX IF NOT EXISTS idx_transactions_timestamp ON transactions(timestamp 
 CREATE TABLE IF NOT EXISTS game_sessions (
   id         UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   user_id    UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-  game_type  VARCHAR(20) NOT NULL CHECK (game_type IN ('slots','blackjack','crash','roulette')),
+  game_type  VARCHAR(20) NOT NULL CHECK (game_type IN ('slots','blackjack','crash','roulette','crate')),
   state      JSONB NOT NULL DEFAULT '{}',
   result     VARCHAR(20),
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),

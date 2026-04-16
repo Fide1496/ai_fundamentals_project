@@ -37,6 +37,7 @@ services:
       INITIAL_BALANCE: 1000
       DAILY_REWARD_AMOUNT: 100
       FRONTEND_URL: http://localhost:3000
+      ADMIN_PASSWORD: changeme
     ports:
       - '4000:4000'
 

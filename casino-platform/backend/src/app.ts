@@ -5,13 +5,13 @@ import authRoutes from './routes/auth.routes';
 import walletRoutes from './routes/wallet.routes';
 import gameRoutes from './routes/game.routes';
 import leaderboardRoutes from './routes/leaderboard.routes';
+import adminRoutes from './routes/admin.routes';
+import crateRoutes from './routes/crate.routes';
 
 dotenv.config();
 
 const app = express();
 
-// In Docker, requests come from nginx proxy, so allow any origin
-// In dev, allow the configured frontend URL
 const allowedOrigins = [
   process.env.FRONTEND_URL || 'http://localhost:3000',
   'http://localhost:3000',
@@ -21,11 +21,10 @@ const allowedOrigins = [
 
 app.use(cors({
   origin: (origin, callback) => {
-    // Allow requests with no origin (nginx proxy, curl, mobile)
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
-      callback(null, true); // permissive for virtual-currency app
+      callback(null, true);
     }
   },
   credentials: true,
@@ -39,6 +38,8 @@ app.use('/auth', authRoutes);
 app.use('/wallet', walletRoutes);
 app.use('/game', gameRoutes);
 app.use('/leaderboard', leaderboardRoutes);
+app.use('/admin', adminRoutes);
+app.use('/crate', crateRoutes);
 
 app.use((_req, res) => res.status(404).json({ error: 'Not found' }));
 
